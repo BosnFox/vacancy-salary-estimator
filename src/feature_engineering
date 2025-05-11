@@ -1,8 +1,10 @@
 def initialize_encoding_maps():
     """Создаёт словари для кодирования категориальных признаков.
+
     Returns:
         dict: Словарь, где ключи - это названия признаков,
               а значения - это словари мэппинга.
+
     Note:
         Созданные словари необходимы для работы функции vacancy_refiner"""
 
@@ -22,7 +24,6 @@ def initialize_encoding_maps():
     "work_schedule_by_days", # расписание работы
     "working_hours" # сколько часов в неделю
      ]
-    
     
     features_dict = req.get(f"https://api.hh.ru/dictionaries").json()
     
@@ -81,10 +82,13 @@ def initialize_encoding_maps():
 
 def vacancy_refiner(vacancy):
     """Обрабатывае вакансию для использования в обучении.
+
     Args:
         vacancy (list): необработанная вакансия.
+
     Returns:
         list: обработанная вакансия.
+
     Note:
         Для работы функции необходимо использовать функцию initialize_encoding_maps"""
 
@@ -144,8 +148,30 @@ def vacancy_refiner(vacancy):
 
 def vacancies_refiner(vacancies):
     """Возвращает датафрейм pandas из переданных вакансий.
+
     Args:
         vacancies (list): список обработанных вакансий.
-    return:
+
+    Returns:
         pd.DataFrame: датафрейм pandas из переданных вакансий"""
+
     return pd.DataFrame(vacancies)
+
+def skill_transform(vacancies):
+    """Кодирует столбец 'key_skills' с использованием MultiLabelBinarizer
+    и добавляет полученные бинарные признаки к исходному датафрейму.
+
+    Args:
+        vacancies_df (pd.DataFrame): фатафрейм с вакансиями.
+
+    Returns:
+        pd.DataFrame: DataFrame с удаленным исходным столбцом 'key_skills'
+                      и добавленными новыми бинарными столбцами для каждого навыка.
+
+    Note: Исходный датафрейм должен содержать столбец 'key_skills'."""
+
+    skill_binarizer = MultiLabelBinarizer()
+    encoded_skills = skill_binarizer.fit_transform(vacancies["key_skills"])
+    encoded_skills_df = pd.DataFrame(encoded_skills, columns=skill_binarizer.classes_, index=vacancies.index)
+    skill_encoded_vacancies = pd.concat([vacancies.drop('key_skills', axis=1), encoded_skills_df], axis=1)
+    return skill_encoded_vacancies
