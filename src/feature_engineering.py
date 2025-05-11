@@ -8,21 +8,21 @@ def initialize_encoding_maps():
     Note:
         Созданные словари необходимы для работы функции vacancy_refiner"""
 
-    features = ["accept_handicapped", # доступна ли с инвал-ю 
-    "accept_kids", # доступна ли от 14 лет
-    "accept_temporary", # доступно ли врем. трудоустр-о 
-    "area", # город 
-    "driver_license_types", # типы вод. прав
-    "employment_form", # тип занятости
-    "experience", # опыт
-    "internship", # стажировка ли
-    "key_skills", # ключевые навыки
-    "languages", # языки
-    "night_shifts", # есть ли ночные смены
-    "salary", # зарплата
-    "work_format", # формат работы
-    "work_schedule_by_days", # расписание работы
-    "working_hours" # сколько часов в неделю
+    features = ["accept_handicapped", 
+    "accept_kids", 
+    "accept_temporary", 
+    "area", 
+    "driver_license_types", 
+    "employment_form", 
+    "experience", 
+    "internship",
+    "key_skills",
+    "languages", 
+    "night_shifts", 
+    "salary", 
+    "work_format", 
+    "work_schedule_by_days", 
+    "working_hours" 
      ]
     
     features_dict = req.get(f"https://api.hh.ru/dictionaries").json()
