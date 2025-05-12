@@ -122,7 +122,6 @@ vacancy-salary-estimator/
 ├── README.md                 # Данный файл с описанием проекта
 ├── LICENSE                   # Файл лицензии (MIT License)
 ├── requirements.txt          # Список зависимостей Python для воспроизведения окружения
-│
 └── src/                      # Исходный код на Python
     ├── data_processing.py    # Функции для загрузки и предобработки данных
     ├── feature_engineering.py # Функции для генерации признаков
